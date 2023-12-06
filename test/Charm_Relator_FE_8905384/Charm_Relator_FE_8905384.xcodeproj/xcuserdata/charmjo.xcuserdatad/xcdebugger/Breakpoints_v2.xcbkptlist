@@ -30,8 +30,8 @@
             filePath = "Charm_Relator_FE_8905384/News.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "101"
-            endingLineNumber = "101"
+            startingLineNumber = "128"
+            endingLineNumber = "128"
             landmarkName = "tableView(_:cellForRowAt:)"
             landmarkType = "7">
             <Locations>
@@ -64,6 +64,150 @@
                   startingLineNumber = "95"
                   endingLineNumber = "95"
                   offsetFromSymbolStart = "308">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "94775609-9E7A-4763-84F0-596D912BDB53"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Charm_Relator_FE_8905384/News.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "89"
+            endingLineNumber = "89"
+            landmarkName = "viewDidLoad()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "94775609-9E7A-4763-84F0-596D912BDB53 - 27536c10ab1e1902"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Charm_Relator_FE_8905384.News.viewDidLoad() -&gt; ()"
+                  moduleName = "Charm_Relator_FE_8905384"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/charmjo/Documents/PROG8471/Charm_Relator_FE_8905384/Charm_Relator_FE_8905384/News.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "89"
+                  endingLineNumber = "89"
+                  offsetFromSymbolStart = "356">
+               </Location>
+               <Location
+                  uuid = "94775609-9E7A-4763-84F0-596D912BDB53 - 3f054fed0cbb48b0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;__C.CLLocation&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in Charm_Relator_FE_8905384.News.viewDidLoad() -&gt; ()"
+                  moduleName = "Charm_Relator_FE_8905384"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/charmjo/Documents/PROG8471/Charm_Relator_FE_8905384/Charm_Relator_FE_8905384/News.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "90"
+                  endingLineNumber = "90"
+                  offsetFromSymbolStart = "84">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B2007D16-8CC8-4178-8832-354487092BC5"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Charm_Relator_FE_8905384/News.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "88"
+            endingLineNumber = "88"
+            landmarkName = "viewDidLoad()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "341FBAFB-B9E7-4F42-BF32-158C2DAF8E82"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Charm_Relator_FE_8905384/Main.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "32"
+            endingLineNumber = "32"
+            landmarkName = "prepare(for:sender:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "8BEF0828-D9B2-4C89-96F3-F7B13B9ACEFD"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Charm_Relator_FE_8905384/Main.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "96"
+            endingLineNumber = "96"
+            landmarkName = "segueToOtherView(_:_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "74776E78-39FD-4CCA-99C0-E9074FCA0DBA"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Charm_Relator_FE_8905384/Main.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "60"
+            endingLineNumber = "60"
+            landmarkName = "showAlert()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "74776E78-39FD-4CCA-99C0-E9074FCA0DBA - 14166b9e789cce4b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 (__C.UIAlertAction) -&gt; () in Charm_Relator_FE_8905384.Main.showAlert() -&gt; ()"
+                  moduleName = "Charm_Relator_FE_8905384"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/charmjo/Documents/PROG8471/Charm_Relator_FE_8905384/Charm_Relator_FE_8905384/Main.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "60"
+                  endingLineNumber = "60"
+                  offsetFromSymbolStart = "72">
+               </Location>
+               <Location
+                  uuid = "74776E78-39FD-4CCA-99C0-E9074FCA0DBA - 14166b9e789cce4b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 (__C.UIAlertAction) -&gt; () in Charm_Relator_FE_8905384.Main.showAlert() -&gt; ()"
+                  moduleName = "Charm_Relator_FE_8905384"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/charmjo/Documents/PROG8471/Charm_Relator_FE_8905384/Charm_Relator_FE_8905384/Main.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "60"
+                  endingLineNumber = "60"
+                  offsetFromSymbolStart = "60">
                </Location>
             </Locations>
          </BreakpointContent>

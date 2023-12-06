@@ -70,8 +70,9 @@ class News: UITableViewController {
     }
     
     // MARK: Globals
-    var newsList:[Article] = []
-    let content = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    var dest : String?;
+    var newsList:[Article] = [];
+    let content = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext;
 
     
     // MARK: - viewdidLoad
@@ -84,6 +85,32 @@ class News: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        if dest != nil {
+            self.convertAddress(dest!) { location,error in
+                self.convertCoordinate(location!.coordinate.latitude,location!.coordinate.longitude) {
+                    (coordinateResult) in
+                    
+                    // TODO: rewrite this to something cleaner
+                    switch coordinateResult {
+                        case let .success(placemark):
+                        if let placem = placemark.first {
+                            print(placem)
+                            
+                            let city = placem.locality ?? ""
+                            let country = placem.country ?? ""
+                            let language = "en"
+                            
+                            self.requestNewsInfo(city, country, language)
+                        }
+           
+                        case let .failure(error):
+                        return;
+                    }
+                    
+                }
+            }
+        }
+        
     }
 
     // MARK: - Table view data source

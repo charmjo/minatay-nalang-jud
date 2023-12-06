@@ -10,6 +10,10 @@ import UIKit
 class Main: UIViewController {
     // TODO: Put some constraints on this one
     
+    // MARK: Globals
+    var dest : String?;
+    
+    // MARK: External Events
     @IBAction func showDestinationPrompt(_ sender: Any) {
         showAlert()
     }
@@ -25,6 +29,7 @@ class Main: UIViewController {
 //         Pass the selected object to the new view controller.
         if segue.identifier == "goToNews" {
             guard let vc = segue.destination as? News else { return }
+            vc.dest = dest;
         } else if segue.identifier == "goToDirections" {
             
         } else if segue.identifier == "goToWeather" {
@@ -47,62 +52,50 @@ class Main: UIViewController {
     
     func showAlert () {
         let alert = UIAlertController(title: "Where would you like to go?", message: "Please enter your destination", preferredStyle: .alert);
-        
         alert.addTextField { field in
             field.placeholder = "Waterloo";
             field.returnKeyType = .continue;
         }
-        
         alert.addAction(UIAlertAction(title: "News", style: .default, handler: { _ in
-            
-            // TODO: place this section inside a function
-            guard let field = alert.textFields, field.count == 1 else {
+            guard self.segueToOtherView(alert.textFields,"goToNews") else {
                 return;
             }
             
-            let txtLocField = field[0]
-            guard let textLoc = txtLocField.text, !textLoc.isEmpty else {
+        }))
+        alert.addAction(UIAlertAction(title: "Directions", style: .default, handler: { _ in
+            guard self.segueToOtherView(alert.textFields,"goToDirections") else {
                 return;
             }
             
-            // TODO: segue action to News
-            self.performSegue(withIdentifier: "goToNews", sender: self)
-            print("NEWSSS")
+        }))
+        alert.addAction(UIAlertAction(title: "Weather", style: .default, handler: { _ in
+            guard self.segueToOtherView(alert.textFields,"goToNews") else {
+                return;
+            }
 
         }))
-        
-        alert.addAction(UIAlertAction(title: "Directions", style: .default, handler: { _ in
-            guard let field = alert.textFields, field.count == 1 else {
-                return;
-            }
-            
-            let txtLocField = field[0]
-            guard let textLoc = txtLocField.text, !textLoc.isEmpty else {
-                return;
-            }
-            
-            // TODO: segue action to Directions
-            print("DIRECTIONS")
-        }))
-        
-        alert.addAction(UIAlertAction(title: "Weather", style: .default, handler: { _ in
-            guard let field = alert.textFields, field.count == 1 else {
-                return;
-            }
-            
-            let txtLocField = field[0]
-            guard let textLoc = txtLocField.text, !textLoc.isEmpty else {
-                return;
-            }
-            
-            // TODO: segue action to News
-            print("WEATHER")
-        }))
-                        
-        
-//        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
 
         self.present(alert, animated: true)
+    }
+    
+    func segueToOtherView (_ fields: [UITextField]?, _ ctrlIdentifier: String) -> Bool {
+        guard let field = fields, field.count == 1 else {
+            return false;
+        }
+        
+        let txtLocField = field[0]
+        guard let textLoc = txtLocField.text, !textLoc.isEmpty else {
+            return false;
+        }
+        self.dest = textLoc;
+        
+        // TODO: segue action to News
+        print(ctrlIdentifier)
+        self.performSegue(withIdentifier: ctrlIdentifier, sender: self);
+        
+        
+        
+        return true;
     }
 
 }
