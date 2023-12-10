@@ -11,6 +11,7 @@ import UIKit
 import CoreLocation
 import Foundation
 
+
 class News: UITableViewController {
 // Struct for news
     // MARK: - News
@@ -38,6 +39,7 @@ class News: UITableViewController {
     }
     
     // MARK: External Actions
+    @IBOutlet weak var cityTitle: UILabel!
     @IBAction func enterCity(_ sender: Any) {
         showAlert { (result) in
             
@@ -69,10 +71,16 @@ class News: UITableViewController {
         }
     }
     
-    // MARK: Globals
+    // MARK: -  Globals
     var dest : String?;
     var newsList:[Article] = [];
     let content = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext;
+    
+    
+    // MARK: - Enums
+    enum CoreDataError: Error {
+        case insertError;
+    }
 
     
     // MARK: - viewdidLoad
@@ -127,8 +135,6 @@ class News: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "newsCell", for: indexPath) as! ArticleCell
         
-        print(newsList[indexPath.row].description)
-
         // Configure the cell...
         cell.articleTitle.text = newsList[indexPath.row].title
         cell.articleDescription.text = newsList[indexPath.row].description
@@ -138,9 +144,9 @@ class News: UITableViewController {
         return cell
     }
     
-    // MARK: Alert prompt for a destination
+    // MARK: - Alert prompt for a destination
     func showAlert (completion: @escaping(Result<String, Error>) -> Void) {
-        let alert = UIAlertController(title: "Get Location", message: "Please Enter Your Location", preferredStyle: .alert);
+        let alert = UIAlertController(title: "Where would you like to go?", message: "Please enter your destination", preferredStyle: .alert);
         
         alert.addTextField { field in
             field.placeholder = "Waterloo";
@@ -157,18 +163,11 @@ class News: UITableViewController {
                 return;
             }
             
-            // TODO: place this in a crud function.
-            let historyEntry = HistoryList(context: self.content)
-            historyEntry.dateEntered = Date()
-            historyEntry.destination = textLoc
-            historyEntry.sourceModule = "news"
-            historyEntry.interactionType = "news"
-            
-            do {
-                try self.content.save()
-            } catch {
-                completion(.failure(error))
+            // MARK: saveToHistoryList usage
+            if (!self.saveToHistoryList(textLoc,"news","news")) {
+                completion(.failure(CoreDataError.insertError));
             }
+           
             
             completion(.success(textLoc));
             
@@ -183,8 +182,27 @@ class News: UITableViewController {
         self.present(alert, animated: true)
     }
     
-    // MARK: API Request function to newsapi.org
-    // TODO: refactor to have completion
+    // MARK: - insertToCoredata
+    func saveToHistoryList (_ textLoc:String,_ source:String, _ interactionType:String) -> Bool {
+        let historyEntry = HistoryList(context: self.content)
+        historyEntry.dateEntered = Date()
+        historyEntry.destination = textLoc
+        historyEntry.sourceModule = source
+        historyEntry.interactionType = interactionType
+        
+        do {
+            try content.save();
+        } catch {
+            return false;
+        }
+        return true;
+  
+    }
+    
+    // TODO: Show Error alert
+    func showErrorAlert () {}
+    
+    // MARK: - API Request function to newsapi.org
     func requestNewsInfo(_ city:String, _ country:String,_ language:String) { // MARK: ORIGINAL
         let qString = "q=(\(city) AND \(country))"
         let escapedQString = qString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
@@ -218,10 +236,12 @@ class News: UITableViewController {
                         
                         
                         self.newsList = readableData.articles
+                    // MARK: - Dispatchqueue after requesting news
                         DispatchQueue.main.async{
                             // MARK: Reload table on the main thread after success.
                       //  https://stackoverflow.com/questions/57438492/tableview-loads-cell-before-api-request-can-update-model
                             self.tableView.reloadData()
+                            self.cityTitle.text = "\(city), \(country)"
                         }
                         
                         

@@ -7,8 +7,13 @@
 
 import UIKit
 
+
 class HistoryCell: UITableViewCell {
 
+
+    @IBOutlet weak var fromModuleOutlet: UILabel!
+    @IBOutlet weak var cityNameOutlet: UILabel!
+    @IBOutlet weak var interactionTypeButton: UIButton!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -19,5 +24,7 @@ class HistoryCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-
+    @IBAction func interactionType(_ sender: Any) {
+    }
+    
 }

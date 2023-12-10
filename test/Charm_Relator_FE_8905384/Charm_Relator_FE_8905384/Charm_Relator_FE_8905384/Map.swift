@@ -13,19 +13,59 @@ import CoreLocation
 
 class Map: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
     
+    // TODO: charm for the love of god, please set source mod to MAP!
+    
     @IBOutlet weak var mapView: MKMapView!;
     let locManager = CLLocationManager ();
     
-    // globals
+    // MARK: -  globals
+    var dest : String?;
     var delta : Double = 0.5;
     var sourceLocation : CLLocation?;
 
+    // MARK: viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
     }
     
+    // MARK: Route buttons
+    // TODO: Write how to alternate between car, bike and walk
+    @IBAction func setToCarRoute(_ sender: Any) {
+        
+        
+    }
+    // TODO: Apple Documentation only has three routes: transit, car, and waling. There is no route for bikes.
+    // https://developer.apple.com/documentation/mapkit/mkdirectionstransporttype/1451972-any
+    
+    // 1. b2 variations - app supported shit, transport routes
+    // 2. redraw polyline
+    // 3. re-add annotations
+    // I do not like using globals but at this point I have no choice
+    @IBAction func setToBikeRoute(_ sender: Any) {
+    }
+    @IBAction func setToWalkRoute(_ sender: Any) {
+    }
+    
+    @IBAction func tempGetDirections(_ sender: Any) {
+        showAlert()
+    }
+
+    // TODO: refine this slider some more.
+    // MARK: Region slider
+    @IBAction func setRegionValue(_ sender: UISlider) {
+        delta = Double(sender.value);
+//        print(sender.value);
+//        print(type(of: sender.value))
+        let coordinate = CLLocationCoordinate2D(latitude: sourceLocation!.coordinate.latitude, longitude: sourceLocation!.coordinate.longitude)
+        let span = MKCoordinateSpan(latitudeDelta: delta, longitudeDelta: delta)
+        let region = MKCoordinateRegion(center: coordinate, span: span)
+        mapView.setRegion(region, animated: true)
+    }
+    
+    
+    // MARK: viewDidAppear
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -39,36 +79,10 @@ class Map: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
         
     }
     
-
-    @IBAction func tempGetDirections(_ sender: Any) {
-        showAlert()
-    }
-
-    // TODO: refine this slider some more.
-    @IBAction func setRegionValue(_ sender: UISlider) {
-        delta = Double(sender.value);
-//        print(sender.value);
-//        print(type(of: sender.value))
-        let coordinate = CLLocationCoordinate2D(latitude: sourceLocation!.coordinate.latitude, longitude: sourceLocation!.coordinate.longitude)
-        let span = MKCoordinateSpan(latitudeDelta: delta, longitudeDelta: delta)
-        let region = MKCoordinateRegion(center: coordinate, span: span)
-        mapView.setRegion(region, animated: true)
-    }
-    
-    // TODO: Write how to alternate between car, bike and walk
-    @IBAction func setToCarRoute(_ sender: Any) {
-    }
-    // TODO: Apple Documentation only has three routes: transit, car, and waling. There is no route for bikes.
-    // https://developer.apple.com/documentation/mapkit/mkdirectionstransporttype/1451972-any
-    @IBAction func setToBikeRoute(_ sender: Any) {
-    }
-    @IBAction func setToWalkRoute(_ sender: Any) {
-    }
-    
    // TODO: Make this passable. Will need to ask help from this on how to make this alert customizable
     // will open an aler function
     func showAlert () {
-        let alert = UIAlertController(title: "Get Location", message: "Please Enter Your Location", preferredStyle: .alert);
+        let alert = UIAlertController(title: "Where would you like to go?", message: "Please enter your destination", preferredStyle: .alert);
         
         alert.addTextField { field in
             field.placeholder = "Waterloo";
@@ -178,7 +192,7 @@ class Map: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
             // output to the submit request is an array of routes.
             let route = response.routes[0]
             
-            print(route);
+//            print(route);
             
             // in this case only the first route is fetched
             
@@ -191,6 +205,8 @@ class Map: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
             let coordinate = CLLocationCoordinate2D(latitude: desitiationCor.latitude, longitude: desitiationCor.longitude)
             
             pin.coordinate = coordinate
+            
+            // charm, change this to the name of destination.
             pin.title = "Endpoint"
             self.mapView.addAnnotation(pin)
         }

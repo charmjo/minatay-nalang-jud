@@ -4,7 +4,6 @@
 //
 //  Created by Charm Johannes Relator on 2023-12-03.
 //
-
 import UIKit
 import CoreLocation
 
@@ -80,7 +79,14 @@ class Weather: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var descriptionOutlet: UILabel!
     
     // MARK: - Globals
-    let locManager = CLLocationManager();
+    var dest : String?;
+    let content = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext;
+    
+    //MARK: - Enums
+    enum CoreDataError: Error {
+        case insertError;
+    }
+
     
     // MARK: - viewDidLoad
     override func viewDidLoad() {
@@ -89,44 +95,40 @@ class Weather: UIViewController, CLLocationManagerDelegate {
         // Do any additional setup after loading the view.
         initializeDisplay();
         
-        locManager.delegate = self;
-        locManager.desiredAccuracy = kCLLocationAccuracyBest;
-        locManager.startUpdatingLocation();
-        locManager.requestWhenInUseAuthorization();
+        // MARK: - recevies the destination string from MainVc
+        if dest != nil {
+            self.convertAddress(dest!) { res in
+                if case .success(let loc) = res {
+                    self.getWeatherInfo(loc.coordinate.latitude,loc.coordinate.longitude)
+                }
+            }
+        }
     }
     
     
     @IBAction func getCityCoord(_ sender: Any) {
-        showAlert();
-    }
-    
-    // MARK: - Location-related functions
-    // STEP 1: get the simulated location.
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        // For future reference: charm, this is to check if location is valid.
-        if let location = locations.first {
-            // Note to self: I'm just doing stuff with the first location.
-            let coord = location.coordinate;
-            
-            // STEP 2 : using the coordinates, get the weather info
-            getWeatherInfo(coord.latitude, coord.longitude);
+        showAlert() { (textLoc,error) in
+            if !error {
+                self.convertAddress(textLoc) { res in
+                    if case .success(let loc) = res {
+                        self.getWeatherInfo(loc.coordinate.latitude,loc.coordinate.longitude)
+                    }
+                }
+            }
         }
-        
     }
     
-    func convertAddress (_ textLoc: String) {
+    // MARK: - geocoder
+    func convertAddress (_ textLoc: String, completion: @escaping(Result<CLLocation,Error>)->Void) {
         let geoCoder = CLGeocoder()
         geoCoder.geocodeAddressString(textLoc) {
             (placemarks, error) in
             guard let placemarks = placemarks,
                   let location = placemarks.first?.location
             else {
-                print ("no location found")
-                return
+                return;
             }
-            
-            self.getWeatherInfo(location.coordinate.latitude, location.coordinate.longitude)
-//            self.mapThis(desitiationCor: location.coordinate)
+            completion(.success(location))
         }
     }
 
@@ -319,7 +321,7 @@ class Weather: UIViewController, CLLocationManagerDelegate {
     }
     
     // MARK: - Show destination alert prompt
-    func showAlert () {
+    func showAlert (completion: @escaping(_ textLoc: String,_ error: Bool)->Void) {
         let alert = UIAlertController(title: "Get Location", message: "Please Enter Your Location", preferredStyle: .alert);
         
         alert.addTextField { field in
@@ -337,15 +339,37 @@ class Weather: UIViewController, CLLocationManagerDelegate {
                 return;
             }
             
+            // MARK: saveToHistoryList usage
+            if (!self.saveToHistoryList(textLoc,"weather","weather")) {
+                completion("",true);
+            }
+            
             // so, I need to put the add function here. I still do not understand why this alert will not return anything
       //      self.addItemtoList(item: todoItem)
-            self.convertAddress(textLoc)
+            completion(textLoc,false);
         }))
                         
         
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
 
         self.present(alert, animated: true)
+    }
+    
+    // MARK: insertToCoredata
+    func saveToHistoryList (_ textLoc:String,_ source:String, _ interactionType:String) -> Bool {
+        let historyEntry = HistoryList(context: self.content)
+        historyEntry.dateEntered = Date()
+        historyEntry.destination = textLoc
+        historyEntry.sourceModule = source
+        historyEntry.interactionType = interactionType
+        
+        do {
+            try content.save();
+        } catch {
+            return false;
+        }
+        return true;
+  
     }
     
 
